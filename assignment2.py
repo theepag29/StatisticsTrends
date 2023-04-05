@@ -64,7 +64,7 @@ def heat_clean(data, column, value, year, indi_cators):
 
 # Function to plot dataframe
 
-def plot(data, kind, title, x, y):
+def plot(data, kind, title, x, y, imagename):
     ''' Function to create plots. This function is used to give an insight of
     the dataframes. Arguments such as data, kind, title, x, y are used. data
     arguement is used to get the dataframe, kind argument is to specify which
@@ -74,7 +74,8 @@ def plot(data, kind, title, x, y):
     plt.title(title)
     plt.xlabel(x)
     plt.ylabel(y)
-    plt.legend(loc='upper right', bbox_to_anchor=(1.4, 1.0))
+    plt.legend()
+    plt.savefig(f'{imagename}.png')
     plt.show()
 
 
@@ -82,6 +83,8 @@ def plot_heat_map(data, country):
     plt.figure(figsize=(10, 7))
     heatmap = sns.heatmap(data.corr(), annot=True, cmap="YlGnBu")
     heatmap.set_title(country)
+    plt.savefig(f'{country}.png')
+    plt.show()
 
 # Specifying the country list by id
 
@@ -128,18 +131,14 @@ statistics(forest_yr)
 # Plotting graphs for various dataframes using plot()
 
 plot(agrlnd_yr, 'line', 'Agricultural Land (% of land area)',
-     'Years', 'Percentage(%)')
-plt.savefig("agri.png")
+     'Years', 'Percentage(%)', 'agri')
 
-plot(aralnd_yr, 'bar', 'Arable Land (% of land area)', 'Years', 'Percentage(%)')
-plt.savefig("arable.png")
+plot(aralnd_yr, 'bar', 'Arable Land (% of land area)', 'Years', 'Percentage(%)', 'arable')
 
 plot(poptot_yr, 'line', 'CO2 emissions (metric tons per capita)',
-     'Years', 'metric tons per capita')
-plt.savefig("poputotal.png")
+     'Years', 'metric tons per capita', 'CO2_emissions')
 
-plot(forest_yr, 'bar', 'Forest Area (% of land area)', 'Years', 'Percentage(%)')
-plt.savefig("forest.png")
+plot(forest_yr, 'bar', 'Forest Area (% of land area)', 'Years', 'Percentage(%)', 'forest')
 
 #reading climate dataset file
 
@@ -153,5 +152,8 @@ years = ["2000", "2005", "2010", "2015", "2020"]
 
 #clean data before ploting heatmap
 
-data_cleaned = heat_clean(data, 'Country Name', 'Ecuador', years, x)
-plot_heat_map(data_cleaned, 'Ecuador')
+data_cleaned_ecu = heat_clean(data, 'Country Name', 'Ecuador', years, x)
+plot_heat_map(data_cleaned_ecu, 'Ecuador')
+
+data_cleaned_indo = heat_clean(data, 'Country Name', 'Indonesia', years, x)
+plot_heat_map(data_cleaned_indo, 'Indonesia')
